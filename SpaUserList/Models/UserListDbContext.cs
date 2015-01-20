@@ -18,7 +18,6 @@ namespace SpaUserList.Models
     
         public UserListDbContext() : base("name=UserListDbContext")
         {
-            Database.SetInitializer<UserListDbContext>(new UserListDbInitializer());
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

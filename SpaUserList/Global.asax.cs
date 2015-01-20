@@ -7,6 +7,7 @@ using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
 using System.Web.Http;
+using System.Data.Entity;
 
 namespace SpaUserList
 {
@@ -17,7 +18,12 @@ namespace SpaUserList
             // Code that runs on application startup
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);            
+            RouteConfig.RegisterRoutes(RouteTable.Routes);    
+        
+            //DB initialization
+            Database.SetInitializer<Models.UserListDbContext>(new Models.UserListDbInitializer());
+            var db = new Models.UserListDbContext();
+            db.Database.Initialize(true);
         }
     }
 }
