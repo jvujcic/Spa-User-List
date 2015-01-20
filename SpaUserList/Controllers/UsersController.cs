@@ -49,7 +49,40 @@ namespace SpaUserList.Controllers
                 return BadRequest();
             }
 
-            db.Entry(user).State = EntityState.Modified;
+            //db.Entry(user).State = EntityState.Modified;
+
+
+           /*
+            * Moze i efikasnije (bez da sve izbrisen i updejtan)
+            */
+            
+            var userToUpdate = db.Users.Find(id);
+            foreach (Email email in userToUpdate.Emails.ToArray())
+            {
+                db.Emails.Remove(email);
+            }
+
+            userToUpdate.Emails.Clear();
+            userToUpdate.Tags.Clear();
+
+            foreach (Email email in user.Emails)
+            {
+                userToUpdate.Emails.Add(new Email() { EmailAddress = email.EmailAddress });
+            }
+
+            foreach (Tag tag in user.Tags)
+            {
+                Tag tagTemp = db.Tags.SingleOrDefault(t => t.Name == tag.Name);
+                if (tagTemp == null)
+                {
+                    tagTemp = new Tag() { Name = tag.Name };
+                }
+                userToUpdate.Tags.Add(tagTemp);
+            }
+
+            userToUpdate.Name = user.Name;
+            userToUpdate.Address = user.Address;
+            userToUpdate.Surname = user.Surname;
 
             try
             {
