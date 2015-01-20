@@ -8,6 +8,13 @@ namespace SpaUserList.Models
 {
     public class User
     {
+
+        public User()
+        {
+            Emails = new HashSet<Email>();
+            Tags = new HashSet<Tag>();
+        }
+
         public int UserId { get; set; }
 
         //[Index]

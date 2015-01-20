@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace SpaUserList.Models
 {
@@ -17,9 +18,17 @@ namespace SpaUserList.Models
     
         public UserListDbContext() : base("name=UserListDbContext")
         {
+            Database.SetInitializer<UserListDbContext>(new UserListDbInitializer());
         }
 
-        public System.Data.Entity.DbSet<SpaUserList.Models.User> Users { get; set; }
-    
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            base.OnModelCreating(modelBuilder);
+        }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Email> Emails { get; set; }
+        public DbSet<Tag> Tags { get; set; }
     }
 }
