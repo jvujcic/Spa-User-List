@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace SpaUserList.Models
 {
@@ -16,6 +17,7 @@ namespace SpaUserList.Models
         [Key]
         public string Name { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
     }
 }
