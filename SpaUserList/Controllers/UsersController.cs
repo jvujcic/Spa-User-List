@@ -56,13 +56,9 @@ namespace SpaUserList.Controllers
                     return BadRequest("koristena email adresa");
                 }
             }
-            //db.Entry(user).State = EntityState.Modified;
-
-
            /*
             * Moze i efikasnije (bez da sve izbrisen i updejtan)
-            */
-            
+            */         
             var userToUpdate = db.Users.Find(id);
             foreach (Email email in userToUpdate.Emails.ToArray())
             {
