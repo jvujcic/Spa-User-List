@@ -9,23 +9,37 @@
         <table>
             <tr ng-repeat="user in userList">
                 <td>{{user.userId}}</td>
-                <td>{{user.name}}</td>
-                <td>{{user.surname}}</td>
-                <td>{{user.address}}</td>
+                <td ng-if="user.userId != userToEditId"> {{ user.name }} </td>
+                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
+                <td ng-if="user.userId != userToEditId"> {{ user.surname }} </td>
+                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.surname" placeholder={{user.surname}} /> </td>
+                <td ng-if="user.userId != userToEditId"> {{ user.address }} </td>
+                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.address" placeholder={{user.address}} /> </td>
                 <td>
                     <table>
-                        <tr ng-repeat="email in user.emails"><td>{{email.emailAddress}}</td></tr>
+                        <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
+                        <tr ng-if="user.userId == userToEditId" ng-repeat="email in userToUpdate.emails">
+                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" /> </td>
+                        </tr>
                     </table>
                 </td>
                 <td>
                     <table>
-                        <tr ng-repeat="tag in user.tags"><td>{{tag.name}}</td></tr>
+                        <tr ng-if="user.userId != userToEditId" ng-repeat="tag in user.tags"> <td> {{tag.name}} </td> </tr>
+                        <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags">
+                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" /> </td>
+                        </tr>
                     </table>
                 </td>
+                <td> <button ng-click="editUser(user.userId)"> Edit </button> </td>
+                <td><button ng-click="cancelEditing()"> Cancel </button></td>
             </tr>
         </table>
+        <br />
+        {{userList | json}}
+        <br /><br />
+        {{userToUpdate | json}}
     </div>
-    {{userList | json}}
 
     @Scripts.Render("~/bundles/javascript")
     @Styles.Render("~/Content/css")

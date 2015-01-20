@@ -10,4 +10,12 @@ angular.module('userList')
         }).error(function () {
         });
     }
+    
+    this.getUser = function (id, callback) {
+        $http.get(webApiUrl + id).success(function (response) {
+            callback(response);
+        }).error(function () {
+
+        });
+    }
 }])
