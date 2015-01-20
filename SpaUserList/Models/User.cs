@@ -10,10 +10,10 @@ namespace SpaUserList.Models
     {
         public int UserId { get; set; }
 
-        [Index]
+        //[Index]
         public string Name { get; set; }
 
-        [Index]
+        //[Index]
         public string Surname {get; set;}
 
         public string Address { get; set; }
