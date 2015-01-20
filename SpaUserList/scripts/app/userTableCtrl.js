@@ -6,9 +6,11 @@ angular.module('userList')
     $scope.userToEditId = -1;
     $scope.userToUpdate = {};
 
-    userDataService.getAllUsers(function (data) {
-        $scope.userList = data;
-    });
+    $scope.getAllUsers = function () {
+        userDataService.getAllUsers(function (data) {
+            $scope.userList = data;
+        });
+    }
 
     $scope.editUser = function (id) {
         userDataService.getUser(id, function (data) {
@@ -22,6 +24,10 @@ angular.module('userList')
 
     $scope.updateUser = function () {
         userDataService.updateUser($scope.userToUpdate, function (date) {
+            $scope.getAllUsers();
+            $scope.userToEditId = -1;
         });
     }
+
+    $scope.getAllUsers();
 }])
