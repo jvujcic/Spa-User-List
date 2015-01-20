@@ -15,7 +15,13 @@ angular.module('userList')
         $http.get(webApiUrl + id).success(function (response) {
             callback(response);
         }).error(function () {
+        });
+    }
 
+    this.updateUser = function (user, callback) {
+        $http.put(webApiUrl + user.userId, user).success(function (response) {
+            callback(response);
+        }).error(function () {
         });
     }
 }])

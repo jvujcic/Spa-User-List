@@ -19,4 +19,9 @@ angular.module('userList')
     }
 
     $scope.cancelEditing = function () { $scope.userToEditId = -1; }
+
+    $scope.updateUser = function () {
+        userDataService.updateUser($scope.userToUpdate, function (date) {
+        });
+    }
 }])
