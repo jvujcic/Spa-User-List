@@ -130,6 +130,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <None Include="scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="scripts\app\app.js" />
+    <Content Include="scripts\app\userDataService.js" />
+    <Content Include="scripts\app\userTableCtrl.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
     <Content Include="scripts\jquery-1.9.0.js" />

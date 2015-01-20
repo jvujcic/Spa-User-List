@@ -12,7 +12,9 @@ namespace SpaUserList
         {
             bundles.Add(new ScriptBundle("~/bundles/javascript").Include(
                 "~/Scripts/angular.js",
-                "~/Scripts/app/app.js"));
+                "~/Scripts/app/app.js",
+                "~/Scripts/app/userDataService.js",
+                "~/Scripts/app/userTableCtrl.js"));
         }
     }
 }

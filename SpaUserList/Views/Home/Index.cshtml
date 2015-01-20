@@ -5,10 +5,16 @@
 </head>
 <body ng-app="userList">
     <h1>User List</h1>
-    <div> 
-        Empty for now
+    <div ng-controller="UserTableCtrl"> 
+        <table>
+            <tr ng-repeat="user in userList">
+                <td>{{user.userId}}</td>
+                <td>{{user.name}}</td>
+                <td>{{user.surname}}</td>
+            </tr>
+        </table>
     </div>
-
+    {{userList | json}}
     @Scripts.Render("~/bundles/javascript")
     @Styles.Render("~/Content/css")
 
