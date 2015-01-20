@@ -10,7 +10,9 @@ namespace SpaUserList
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
-            bundles.Add(new ScriptBundle("~/bundles/javascript").Include("~/Scripts/angular.js"));
+            bundles.Add(new ScriptBundle("~/bundles/javascript").Include(
+                "~/Scripts/angular.js",
+                "~/Scripts/app/app.js"));
         }
     }
 }
