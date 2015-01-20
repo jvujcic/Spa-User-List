@@ -17,7 +17,9 @@ namespace SpaUserList.Models
         public string Surname {get; set;}
 
         public string Address { get; set; }
+
         public virtual ICollection<Email> Emails { get; set; }
+
         public virtual ICollection<Tag> Tags { get; set; }
     }
 }
