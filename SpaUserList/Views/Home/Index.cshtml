@@ -11,12 +11,23 @@
                 <td>{{user.userId}}</td>
                 <td>{{user.name}}</td>
                 <td>{{user.surname}}</td>
+                <td>{{user.address}}</td>
+                <td>
+                    <table>
+                        <tr ng-repeat="email in user.emails"><td>{{email.emailAddress}}</td></tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr ng-repeat="tag in user.tags"><td>{{tag.name}}</td></tr>
+                    </table>
+                </td>
             </tr>
         </table>
     </div>
     {{userList | json}}
+
     @Scripts.Render("~/bundles/javascript")
     @Styles.Render("~/Content/css")
-
 </body>
 </html>
