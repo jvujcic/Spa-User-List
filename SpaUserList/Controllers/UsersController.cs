@@ -48,7 +48,14 @@ namespace SpaUserList.Controllers
             {
                 return BadRequest();
             }
-
+            foreach (Email email in user.Emails)
+            {
+                Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
+                if(emailTemp != null && emailTemp.UserId != user.UserId)
+                {
+                    return BadRequest("koristena email adresa");
+                }
+            }
             //db.Entry(user).State = EntityState.Modified;
 
 
@@ -111,6 +118,26 @@ namespace SpaUserList.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+            foreach (Email email in user.Emails)
+            {
+                if (db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress) != null)
+                {
+                    return BadRequest("koristena email adresa");
+                }
+            }
+
+            var tagsToRemove = new List<Tag>();
+            foreach(Tag tag in user.Tags)
+            {
+                Tag tagTemp = db.Tags.SingleOrDefault(t => t.Name == tag.Name);
+                if (tagTemp != null)
+                {
+                    tagTemp.Users.Add(user);
+                    tagsToRemove.Add(tag);
+                }
+            }
+            tagsToRemove.ForEach(tag => user.Tags.Remove(tag));
 
             db.Users.Add(user);
             db.SaveChanges();
