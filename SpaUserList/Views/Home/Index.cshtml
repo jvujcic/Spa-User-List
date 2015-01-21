@@ -62,8 +62,9 @@
             </tr>
             <tr> <td> <button ng-click="showAddUserForm(true)"> Add user</button> </td> </tr>
         </table>
+        <input ng-model="query" />
         <button ng-click="searchUser()"> Search </button>
-        <input ng-model="query"/>
+        <button ng-click="cancelSearch()"> Cancel </button>
         <br />
         {{userList | json}}
         <br /><br />

@@ -65,6 +65,11 @@ angular.module('userList')
         $scope.init();
     }
 
+    $scope.cancelSearch = function () {
+        $scope.query = "";
+        $scope.init();
+    }
+
     $scope.init = function () {
         $scope.getUsers($scope.query);
         $scope.userToEditId = -1;
