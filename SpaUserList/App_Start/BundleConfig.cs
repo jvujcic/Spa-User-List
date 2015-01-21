@@ -15,6 +15,9 @@ namespace SpaUserList
                 "~/Scripts/app/app.js",
                 "~/Scripts/app/userDataService.js",
                 "~/Scripts/app/userTableCtrl.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/css").Include(
+                "~/Content/bootstrap.css"));
         }
     }
 }

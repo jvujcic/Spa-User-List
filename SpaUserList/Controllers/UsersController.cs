@@ -121,6 +121,7 @@ namespace SpaUserList.Controllers
                 return BadRequest(ModelState);
             }
 
+            user.Emails.RemoveWhere(email => email.EmailAddress == "");
             foreach (Email email in user.Emails)
             {
                 if (db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress) != null)
@@ -129,6 +130,7 @@ namespace SpaUserList.Controllers
                 }
             }
 
+            user.Tags.RemoveWhere(tag => tag.Name == "");
             var tagsToRemove = new List<Tag>();
             foreach(Tag tag in user.Tags)
             {

@@ -5,20 +5,27 @@
 </head>
 <body ng-app="userList">
     <h1>User List</h1>
-    <div ng-controller="UserTableCtrl"> 
-        <table>
+    <div class="container" ng-controller="UserTableCtrl"> 
+        <table class="table table-hover">
+            <tr>
+                <th> NAME </th>
+                <th> SURNAME </th>
+                <th> ADDRESS </th>
+                <th> E-MAIL</th>
+                <th> TAG </th>
+            </tr>
             <tr ng-repeat="user in userList">
                 <td ng-if="user.userId != userToEditId"> {{ user.name }} </td>
-                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.surname }} </td>
-                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.surname" placeholder={{user.surname}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.surname" placeholder={{user.surname}} /> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.address }} </td>
-                <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.address" placeholder={{user.address}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.address" placeholder={{user.address}} /> </td>
                 <td>
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
+                            <td> <input type="email" class="form-control" ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
                         </tr>
                     </table>
                 </td>
@@ -26,54 +33,57 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="tag in user.tags"> <td> {{tag.name}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags" track by $index>
-                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
+                            <td> <input type="text" class="form-control" ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
                         </tr>
                     </table>
                 </td>
-                <td> <button ng-click="editUser(user.userId)"> Edit </button> </td>
-                <td> <button ng-click="cancelEditing()"> Cancel </button> </td>
-                <td> <button ng-click="updateUser()"> Save </button></td>
-                <td> <button ng-click="deleteUser(user.userId)"> Delete </button></td>
+                <td ng-if="user.userId != userToEditId"> <button class="btn btn-primary" ng-click="editUser(user.userId)"> Edit </button> </td>
+                <td ng-if="user.userId == userToEditId"> <button class="btn btn-success" ng-click="updateUser()"> Save </button> </td>
+                <td ng-if="user.userId == userToEditId"> <button class="btn btn-danger" ng-click="cancelEditing()"> Cancel </button> </td>
+                <td ng-if="user.userId != userToEditId"> <button class="btn btn-danger" ng-click="deleteUser(user.userId)"> Delete </button> </td>
             </tr>
             <tr ng-if="showAddUser">
-                <td> <input ng-model="userToUpdate.name"/> </td>
-                <td> <input ng-model="userToUpdate.surname" /> </td>
-                <td> <input ng-model="userToUpdate.address" /> </td>
+                <td> <input type="text" class="form-control" ng-model="userToUpdate.name" /> </td>
+                <td> <input type="text" class="form-control" ng-model="userToUpdate.surname" /> </td>
+                <td> <input type="text" class="form-control" ng-model="userToUpdate.address" /> </td>
                 <td>
                     <table>
                         <tr ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 1)" /> </td>
+                            <td> <input type="email" class="form-control"  ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
                         </tr>
                     </table>
                 </td>
                 <td>
                     <table>
                         <tr ng-repeat="tag in userToUpdate.tags" track by $index>
-                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
+                            <td> <input type="text" class="form-control" ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
                         </tr>
                     </table>
                 </td>
-                <td>
-                    <button ng-click="addUser()"> Add </button>
+                <td><button class="btn btn-success" ng-click="addUser()"> Save </button>
                 </td>
                 <td>
-                    <button ng-click="showAddUserForm(false)"> Cancel </button>
+                    <button class="btn btn-danger" ng-click="showAddUserForm(false)"> Cancel </button>
                 </td>
             </tr>
-            <tr> <td> <button ng-click="showAddUserForm(true)"> Add user</button> </td> </tr>
         </table>
-        <input ng-model="query" />
-        <button ng-click="searchUser()"> Search </button>
-        <button ng-click="cancelSearch()"> Cancel </button>
+        <button class="btn btn-success" ng-click="showAddUserForm(true)" > Add user</button>
+        <br /><br /><br />
+        <form ng-submit="searchUser()" class="form-inline">
+            <input type="text" class="form-control" ng-model="query" />
+            <button class="btn btn-primary" ng-click="searchUser()"> Search </button>
+            <button class="btn btn-danger" ng-click="cancelSearch()"> Cancel </button>
+        </form>
+
         <br />
         {{userList | json}}
-        <br /><br />
+        <br /><br /><br /><br />
         {{userToUpdate | json}}
         <br /><br />
         {{query}}
     </div>
 
     @Scripts.Render("~/bundles/javascript")
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/css")
 </body>
 </html>

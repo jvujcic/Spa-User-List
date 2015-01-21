@@ -46,7 +46,7 @@ angular.module('userList')
 
     $scope.addRow = function (elements, index, type) {
         if (index == elements.length - 1) {
-            if (String(type) == "email") elements.push({ 'emailAddress': "" });
+            if (type == "email") elements.push({ 'emailAddress': "" });
             if (type == "tag") elements.push({'name' : ""})
         }
     }
