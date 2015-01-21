@@ -8,7 +8,6 @@
     <div ng-controller="UserTableCtrl"> 
         <table>
             <tr ng-repeat="user in userList">
-                <td>{{user.userId}}</td>
                 <td ng-if="user.userId != userToEditId"> {{ user.name }} </td>
                 <td ng-if="user.userId == userToEditId"> <input ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.surname }} </td>
@@ -63,10 +62,14 @@
             </tr>
             <tr> <td> <button ng-click="showAddUserForm(true)"> Add user</button> </td> </tr>
         </table>
+        <button ng-click="searchUser()"> Search </button>
+        <input ng-model="query"/>
         <br />
         {{userList | json}}
         <br /><br />
         {{userToUpdate | json}}
+        <br /><br />
+        {{query}}
     </div>
 
     @Scripts.Render("~/bundles/javascript")

@@ -2,9 +2,10 @@
 
 angular.module('userList')
 .controller('UserTableCtrl', ['$scope', 'userDataService', function ($scope, userDataService) {
+    $scope.query = "";
 
-    $scope.getAllUsers = function () {
-        userDataService.getAllUsers(function (data) {
+    $scope.getUsers = function (query) {
+        userDataService.getUsers(query, function (data) {
             $scope.userList = data;
         });
     }
@@ -60,8 +61,12 @@ angular.module('userList')
         $scope.showAddUser = show;
     }
 
+    $scope.searchUser = function () {
+        $scope.init();
+    }
+
     $scope.init = function () {
-        $scope.getAllUsers();
+        $scope.getUsers($scope.query);
         $scope.userToEditId = -1;
         $scope.userToUpdate = {};
         $scope.showAddUser = false;

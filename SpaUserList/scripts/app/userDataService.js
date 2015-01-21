@@ -4,11 +4,20 @@ angular.module('userList')
 .service('userDataService', ['$http', function ($http) {
     webApiUrl = "/api/users/";
 
-    this.getAllUsers = function (callback) {
-        $http.get(webApiUrl).success(function (response) {
-            callback(response);
-        }).error(function () {
-        });
+    this.getUsers = function (query, callback) {
+        if (query == "") {
+            $http.get(webApiUrl).success(function (response) {
+                callback(response);
+            }).error(function () {
+            });
+        }
+        else {
+            $http.get(webApiUrl + "search/" + query).success(function (response) {
+                callback(response);
+            }).error(function () {
+            });
+        }
+
     }
     
     this.getUser = function (id, callback) {

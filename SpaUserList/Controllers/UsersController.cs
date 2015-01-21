@@ -163,6 +163,30 @@ namespace SpaUserList.Controllers
             return Ok(user);
         }
 
+        // GET: api/Users/Search
+        [Route("api/Users/Search/{query}")]
+        public List<User> GetSearch(string query)
+        {
+            if (query == null) return db.Users.ToList();
+
+            var users = (
+                    from u in db.Users 
+                    where String.Compare(u.Name, query, StringComparison.OrdinalIgnoreCase) == 0
+                    || String.Compare(u.Surname, query, StringComparison.OrdinalIgnoreCase)  == 0
+                    select u
+                )
+                .Concat((
+                        from t in db.Tags 
+                        where String.Compare(t.Name, query, StringComparison.OrdinalIgnoreCase) == 0 
+                        select t.Users.ToList()
+                    )
+                    .SelectMany(v => v)
+                )
+               .ToList();
+
+            return users.Distinct().ToList();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
