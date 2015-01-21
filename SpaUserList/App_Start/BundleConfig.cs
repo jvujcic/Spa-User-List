@@ -17,10 +17,11 @@ namespace SpaUserList
                 "~/Scripts/toaster.js",
                 "~/Scripts/app/app.js",
                 "~/Scripts/app/userDataService.js",
-                "~/Scripts/app/userTableCtrl.js"));
+                "~/Scripts/app/userCtrl.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/css").Include(
-                "~/Content/bootstrap.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/toaster.css"));
         }
     }
 }

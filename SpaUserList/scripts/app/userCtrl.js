@@ -1,7 +1,7 @@
 ﻿/// <reference path="../angular.js" />
 
 angular.module('userList')
-.controller('UserTableCtrl', ['$scope', 'userDataService', function ($scope, userDataService) {
+.controller('UserCtrl', ['$scope', 'userDataService', 'toaster', function ($scope, userDataService, toaster) {
     $scope.query = "";
 
     $scope.getUsers = function (query) {
