@@ -19,7 +19,7 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index)" /> </td>
+                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
                         </tr>
                     </table>
                 </td>
@@ -27,7 +27,7 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="tag in user.tags"> <td> {{tag.name}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags" track by $index>
-                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index)" /> </td>
+                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
                         </tr>
                     </table>
                 </td>
@@ -36,6 +36,32 @@
                 <td> <button ng-click="updateUser()"> Save </button></td>
                 <td> <button ng-click="deleteUser(user.userId)"> Delete </button></td>
             </tr>
+            <tr ng-if="showAddUser">
+                <td> <input ng-model="userToUpdate.name"/> </td>
+                <td> <input ng-model="userToUpdate.surname" /> </td>
+                <td> <input ng-model="userToUpdate.address" /> </td>
+                <td>
+                    <table>
+                        <tr ng-repeat="email in userToUpdate.emails" track by $index>
+                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 1)" /> </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <table>
+                        <tr ng-repeat="tag in userToUpdate.tags" track by $index>
+                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index, 'tag')" /> </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <button ng-click="addUser()"> Add </button>
+                </td>
+                <td>
+                    <button ng-click="showAddUserForm(false)"> Cancel </button>
+                </td>
+            </tr>
+            <tr> <td> <button ng-click="showAddUserForm(true)"> Add user</button> </td> </tr>
         </table>
         <br />
         {{userList | json}}

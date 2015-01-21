@@ -12,10 +12,11 @@ angular.module('userList')
     $scope.editUser = function (id) {
         userDataService.getUser(id, function (data) {
             $scope.userToUpdate = data;
-            $scope.userToUpdate.emails.push({});
-            $scope.userToUpdate.tags.push({});
+            $scope.userToUpdate.emails.push({ 'emailAddress': "" });
+            $scope.userToUpdate.tags.push({ 'name': "" });
         })
         $scope.userToEditId = id;
+        $scope.showAddUserForm(false);
     }
 
     $scope.cancelEditing = function () {
@@ -24,11 +25,16 @@ angular.module('userList')
     }
 
     $scope.updateUser = function () {
-        $scope.userToUpdate.emails.pop();
-        $scope.userToUpdate.tags.pop();
         userDataService.updateUser($scope.userToUpdate, function (data) {
             $scope.init();
         });
+    }
+
+    $scope.addUser = function () {
+        userDataService.addUser($scope.userToUpdate, function (data) {
+            $scope.init();
+        });
+
     }
 
     $scope.deleteUser = function (id) {
@@ -37,16 +43,28 @@ angular.module('userList')
         });
     }
 
-    $scope.addRow = function (elements, index) {
+    $scope.addRow = function (elements, index, type) {
         if (index == elements.length - 1) {
-            elements.push({});
+            if (String(type) == "email") elements.push({ 'emailAddress': "" });
+            if (type == "tag") elements.push({'name' : ""})
         }
+    }
+
+    $scope.showAddUserForm = function (show) {
+        if (show)
+        {
+            $scope.userToUpdate = { 'emails': [{ 'emailAddress': "" }], 'tags': [{ 'name': "" }] };
+            $scope.userToEditId = -1;
+        }
+        else { $scope.userToUpdate = {}; }
+        $scope.showAddUser = show;
     }
 
     $scope.init = function () {
         $scope.getAllUsers();
         $scope.userToEditId = -1;
         $scope.userToUpdate = {};
+        $scope.showAddUser = false;
     }
 
     $scope.init();
