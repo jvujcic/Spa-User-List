@@ -4,8 +4,8 @@
     <title>User List</title>
 </head>
 <body ng-app="userList">
-    <h1>User List</h1>
     <div class="container" ng-controller="UserTableCtrl"> 
+        <h1>User List</h1>
         <table class="table table-hover">
             <tr>
                 <th> NAME </th>
@@ -67,20 +67,13 @@
                 </td>
             </tr>
         </table>
-        <button class="btn btn-success" ng-click="showAddUserForm(true)" > Add user</button>
-        <br /><br /><br />
+        <button class="btn btn-success btn-block btn-lg" ng-click="showAddUserForm(true)" > Add user</button>
+        <br /><br />
         <form ng-submit="searchUser()" class="form-inline">
             <input type="text" class="form-control" ng-model="query" />
             <button class="btn btn-primary" ng-click="searchUser()"> Search </button>
             <button class="btn btn-danger" ng-click="cancelSearch()"> Cancel </button>
         </form>
-
-        <br />
-        {{userList | json}}
-        <br /><br /><br /><br />
-        {{userToUpdate | json}}
-        <br /><br />
-        {{query}}
     </div>
 
     @Scripts.Render("~/bundles/javascript")

@@ -1,3 +1,3 @@
 ﻿/// <reference path="../angular.js" />
 
-angular.module('userList', [])
+angular.module('userList', ['ui.bootstrap'])
