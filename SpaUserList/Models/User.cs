@@ -11,8 +11,8 @@ namespace SpaUserList.Models
 
         public User()
         {
-            Emails = new HashSet<Email>();
-            Tags = new HashSet<Tag>();
+            Emails = new HashSet<Email>(new EmailComparer());
+            Tags = new HashSet<Tag>(new TagComparer());
         }
 
         public int UserId { get; set; }
@@ -25,8 +25,8 @@ namespace SpaUserList.Models
 
         public string Address { get; set; }
 
-        public virtual ICollection<Email> Emails { get; set; }
+        public virtual HashSet<Email> Emails { get; set; }
 
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual HashSet<Tag> Tags { get; set; }
     }
 }

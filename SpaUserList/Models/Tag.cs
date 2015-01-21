@@ -18,6 +18,18 @@ namespace SpaUserList.Models
         public string Name { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual HashSet<User> Users { get; set; }
+    }
+
+    public class TagComparer : IEqualityComparer<Tag>
+    {
+        public bool Equals(Tag t1, Tag t2)
+        {
+            return t1.Name == t2.Name;
+        }
+        public int GetHashCode(Tag tag)
+        {
+            return tag.Name.GetHashCode();
+        }
     }
 }

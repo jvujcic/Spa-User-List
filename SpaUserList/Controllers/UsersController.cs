@@ -51,6 +51,8 @@ namespace SpaUserList.Controllers
                 return BadRequest();
             }
 
+            user.Emails.RemoveWhere(email => email.EmailAddress == "");
+
             foreach (Email email in user.Emails)
             {
                 Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
@@ -76,6 +78,7 @@ namespace SpaUserList.Controllers
                 userToUpdate.Emails.Add(new Email() { EmailAddress = email.EmailAddress });
             }
 
+            user.Tags.RemoveWhere(tag => tag.Name == "");
             foreach (Tag tag in user.Tags)
             {
                 Tag tagTemp = db.Tags.SingleOrDefault(t => t.Name == tag.Name);

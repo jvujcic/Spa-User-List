@@ -26,7 +26,7 @@
                 <td>
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="tag in user.tags"> <td> {{tag.name}} </td> </tr>
-                        <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags">
+                        <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags" track by $index>
                             <td> <input ng-model="tag.name" placeholder="{{tag.name}}" /> </td>
                         </tr>
                     </table>

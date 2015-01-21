@@ -18,4 +18,16 @@ namespace SpaUserList.Models
         [JsonIgnore]
         public virtual User User { get; set; }
     }
+
+    public class EmailComparer : IEqualityComparer<Email>
+    {
+        public bool Equals(Email e1, Email e2)
+        {
+            return e1.EmailAddress == e2.EmailAddress;
+        }
+        public int GetHashCode(Email e)
+        {
+            return e.EmailAddress.GetHashCode();
+        }
+    }
 }
