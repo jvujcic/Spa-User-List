@@ -35,7 +35,7 @@ angular.module('userList')
         });
     }
 
-    $scope.addRowEmail = function (elements, index) {
+    $scope.addRow = function (elements, index) {
         if (index == elements.length - 1) {
             elements.push({});
         }

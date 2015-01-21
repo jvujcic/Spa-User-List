@@ -19,7 +19,7 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRowEmail(userToUpdate.emails, $index)" /> </td>
+                            <td> <input ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index)" /> </td>
                         </tr>
                     </table>
                 </td>
@@ -27,7 +27,7 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="tag in user.tags"> <td> {{tag.name}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="tag in userToUpdate.tags" track by $index>
-                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" /> </td>
+                            <td> <input ng-model="tag.name" placeholder="{{tag.name}}" ng-change="addRow(userToUpdate.tags, $index)" /> </td>
                         </tr>
                     </table>
                 </td>
