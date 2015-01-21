@@ -44,10 +44,13 @@ namespace SpaUserList.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserId)
+            var userToUpdate = db.Users.Find(id);
+
+            if (id != user.UserId || userToUpdate == null)
             {
                 return BadRequest();
             }
+
             foreach (Email email in user.Emails)
             {
                 Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
@@ -59,7 +62,7 @@ namespace SpaUserList.Controllers
            /*
             * Moze i efikasnije (bez da sve izbrisen i updejtan)
             */         
-            var userToUpdate = db.Users.Find(id);
+
             foreach (Email email in userToUpdate.Emails.ToArray())
             {
                 db.Emails.Remove(email);
