@@ -24,4 +24,11 @@ angular.module('userList')
         }).error(function () {
         });
     }
+
+    this.deleteUser = function (id, callback) {
+        $http.delete(webApiUrl + id).success(function (response) {
+            callback(response);
+        }).error(function () {
+        });
+    }
 }])

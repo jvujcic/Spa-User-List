@@ -2,9 +2,6 @@
 
 angular.module('userList')
 .controller('UserTableCtrl', ['$scope', 'userDataService', function ($scope, userDataService) {
-    $scope.userList = [];
-    $scope.userToEditId = -1;
-    $scope.userToUpdate = {};
 
     $scope.getAllUsers = function () {
         userDataService.getAllUsers(function (data) {
@@ -22,16 +19,21 @@ angular.module('userList')
     }
 
     $scope.cancelEditing = function () {
-        $scope.userToEditId = -1; $scope.userToUpdate = {};
+        $scope.userToEditId = -1;
+        $scope.userToUpdate = {};
     }
 
     $scope.updateUser = function () {
         $scope.userToUpdate.emails.pop();
         $scope.userToUpdate.tags.pop();
-        userDataService.updateUser($scope.userToUpdate, function (date) {
-            $scope.getAllUsers();
-            $scope.userToEditId = -1;
-            $scope.userToUpdate = {};
+        userDataService.updateUser($scope.userToUpdate, function (data) {
+            $scope.init();
+        });
+    }
+
+    $scope.deleteUser = function (id) {
+        userDataService.deleteUser(id, function (data) {
+            $scope.init();
         });
     }
 
@@ -41,5 +43,11 @@ angular.module('userList')
         }
     }
 
-    $scope.getAllUsers();
+    $scope.init = function () {
+        $scope.getAllUsers();
+        $scope.userToEditId = -1;
+        $scope.userToUpdate = {};
+    }
+
+    $scope.init();
 }])
