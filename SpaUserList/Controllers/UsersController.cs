@@ -46,7 +46,7 @@ namespace SpaUserList.Controllers
 
             var userToUpdate = db.Users.Find(id);
 
-            if (id != user.UserId || userToUpdate == null)
+            if (id != user.UserId || userToUpdate == null || user.Name == "")
             {
                 return BadRequest();
             }

@@ -4,6 +4,13 @@ angular.module('userList')
 .controller('UserCtrl', ['$scope', 'userDataService', 'toaster', function ($scope, userDataService, toaster) {
     $scope.query = "";
 
+    $scope.init = function () {
+        $scope.getUsers($scope.query);
+        $scope.userToEditId = -1;
+        $scope.userToUpdate = {};
+        $scope.showAddUser = false;
+    }
+
     $scope.getUsers = function (query) {
         userDataService.getUsers(query, function (data) {
             $scope.userList = data;
@@ -35,7 +42,6 @@ angular.module('userList')
         userDataService.addUser($scope.userToUpdate, function (data) {
             $scope.init();
         });
-
     }
 
     $scope.deleteUser = function (id) {
@@ -68,13 +74,6 @@ angular.module('userList')
     $scope.cancelSearch = function () {
         $scope.query = "";
         $scope.init();
-    }
-
-    $scope.init = function () {
-        $scope.getUsers($scope.query);
-        $scope.userToEditId = -1;
-        $scope.userToUpdate = {};
-        $scope.showAddUser = false;
     }
 
     $scope.init();
