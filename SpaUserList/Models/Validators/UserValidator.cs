@@ -14,10 +14,12 @@ namespace SpaUserList.Models.Validators
                 .NotEmpty()
                 .WithMessage("User name is empty")
                 .NotNull();
+
             RuleFor(user => user.Surname)
                 .NotEmpty()
                 .WithMessage("User surname is empty")
                 .NotNull();
+
             RuleFor(user => user.Emails)
                 .Must((user, emails) => { return IsEmailUsed(emails, user.UserId); })
                 .WithMessage("Email already used");

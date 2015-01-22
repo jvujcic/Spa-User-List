@@ -10,9 +10,9 @@ namespace SpaUserList.Models.Validators
     {
         public TelephoneNumberValidator()
         {
-            RuleFor(tel => tel.Number).
-                Matches(@"^\+?[\d]{3,15}").
-                WithMessage("Telephone number in wrong format !!");
+            RuleFor(tel => tel.Number)
+                .Matches(@"^\+?[\d]{3,15}$")
+                .WithMessage("Telephone number in wrong format !!");
         }
     }
 }
