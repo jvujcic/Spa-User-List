@@ -22,7 +22,6 @@ namespace SpaUserList
             // Self looping in JSON
             config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 

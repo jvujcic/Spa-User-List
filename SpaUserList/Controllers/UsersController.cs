@@ -58,8 +58,8 @@ namespace SpaUserList.Controllers
             userToUpdate.Emails.UnionWith(user.Emails);
 
             var telephoneNumbersToRemove = new HashSet<TelephoneNumber>(userToUpdate.TelephoneNumbers);
-            telephoneNumbersToRemove.Except(user.TelephoneNumbers);
-            db.Emails.RemoveRange(emailsToRemove);
+            telephoneNumbersToRemove.ExceptWith(user.TelephoneNumbers);
+            db.TelephoneNumbers.RemoveRange(telephoneNumbersToRemove);
             userToUpdate.TelephoneNumbers.IntersectWith(user.TelephoneNumbers);
             userToUpdate.TelephoneNumbers.UnionWith(user.TelephoneNumbers);
 
@@ -73,6 +73,11 @@ namespace SpaUserList.Controllers
                 }
                 userToUpdate.Tags.Add(tagTemp);
             }
+
+            userToUpdate.Name = user.Name;
+            userToUpdate.Surname = user.Surname;
+            userToUpdate.Address = user.Address;
+            userToUpdate.Favorite = user.Favorite;
 
             try
             {

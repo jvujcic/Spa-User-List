@@ -22,6 +22,9 @@ namespace SpaUserList.Models
                     TelephoneNumbers = new HashSet<TelephoneNumber>() {
                         new TelephoneNumber() { Number = "+38595873950" }
                     },
+                    Tags = new HashSet<Tag>() {
+                        new Tag() { Name="bacvice" }
+                    },
                     Favorite = true
                 },
                 new User() { 
@@ -36,18 +39,17 @@ namespace SpaUserList.Models
                         new TelephoneNumber() { Number = "+3859182350" },
                         new TelephoneNumber() { Number = "09812232323" }
                     },
+                    Tags = new HashSet<Tag>() {
+                        new Tag() { Name="hajduk" }
+                    },
                     Favorite = false
                 }
             };
 
-            var tagBacvice = new Tag() { Name = "bacvice" };
-            var tagMath = new Tag() { Name = "math" };
-            var tagHajduk = new Tag() { Name = "hajduk" };
+            var tagMath = new Tag() { Name = "math" };;
 
-            listOfUsers[0].Tags.Add(tagBacvice);
             listOfUsers[0].Tags.Add(tagMath);
             listOfUsers[1].Tags.Add(tagMath);
-            listOfUsers[1].Tags.Add(tagHajduk);
             
             listOfUsers.ForEach(user => context.Users.Add(user));
             base.Seed(context);
