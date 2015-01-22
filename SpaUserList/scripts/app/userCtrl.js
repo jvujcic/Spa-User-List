@@ -8,7 +8,7 @@ angular.module('userList')
     $scope.init = function () {
         $scope.getUsers($scope.query);
         $scope.userToEditId = -1;
-        $scope.userToUpdate = {};
+        $scope.userToUpdate = { };
         $scope.showAddUser = false;
     }
 

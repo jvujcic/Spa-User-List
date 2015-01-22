@@ -9,6 +9,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SpaUserList.Models;
+using Newtonsoft.Json;
+using FluentValidation.Results;
 
 namespace SpaUserList.Controllers
 {
@@ -39,28 +41,37 @@ namespace SpaUserList.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUser(int id, User user)
         {
+            var validator = new Models.Validators.UserValidator();
+            ValidationResult result = validator.Validate(user);
+            if (!result.IsValid)
+            {
+                return BadRequest(result.Errors.First().ErrorMessage);
+            }
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                //var errors = new List<string>();
+                //foreach(var state in ModelState)
+                //{ errors.Add(state.Value.Errors.First().ErrorMessage); }
+                return BadRequest(ModelState);       
             }
 
             var userToUpdate = db.Users.Find(id);
 
-            if (id != user.UserId || userToUpdate == null || user.Name == "")
+            if (id != user.UserId || userToUpdate == null)
             {
                 return BadRequest();
             }
 
             user.Emails.RemoveWhere(email => email.EmailAddress == "");
 
-            foreach (Email email in user.Emails)
-            {
-                Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
-                if(emailTemp != null && emailTemp.UserId != user.UserId)
-                {
-                    return BadRequest("koristena email adresa");
-                }
-            }
+            //foreach (Email email in user.Emails)
+            //{
+            //    Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
+            //    if(emailTemp != null && emailTemp.UserId != user.UserId)
+            //    {
+            //        return BadRequest("koristena email adresa");
+            //    }
+            //}
            /*
             * Moze i efikasnije (bez da sve izbrisen i updejtan)
             */         

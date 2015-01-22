@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace SpaUserList.Models
 {
+    //[Validator(typeof(Validators.UserValidator))]
     public class User
     {
         public User()
@@ -18,10 +20,10 @@ namespace SpaUserList.Models
 
         public int UserId { get; set; }
 
-        [Required]
+        //[Required(ErrorMessage="TestName")]
         public string Name { get; set; }
 
-        [Required]
+        //[Required(ErrorMessage="TestSur")]
         public string Surname {get; set;}
 
         public string Address { get; set; }

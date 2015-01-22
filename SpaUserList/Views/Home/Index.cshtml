@@ -41,7 +41,7 @@
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
                         <tr ng-if="user.userId == userToEditId" ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input type="email" class="form-control" ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
+                            <td> <input type="text" class="form-control" ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
                         </tr>
                     </table>
                 </td>
@@ -73,7 +73,7 @@
                 <td>
                     <table>
                         <tr ng-repeat="email in userToUpdate.emails" track by $index>
-                            <td> <input type="email" class="form-control"  ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
+                            <td> <input type="text" class="form-control"  ng-model="email.emailAddress" placeholder="{{email.emailAddress}}" ng-change="addRow(userToUpdate.emails, $index, 'email')" /> </td>
                         </tr>
                     </table>
                 </td>

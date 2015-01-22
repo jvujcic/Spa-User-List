@@ -9,6 +9,7 @@ using System.Web.SessionState;
 using System.Web.Http;
 using System.Data.Entity;
 using System.Web.Optimization;
+using FluentValidation.WebApi;
 
 namespace SpaUserList
 {
@@ -21,7 +22,11 @@ namespace SpaUserList
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-        
+            
+
+            //Validators initializations
+            FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration);
+
             //DB initialization
             Database.SetInitializer<Models.UserListDbContext>(new Models.UserListDbInitializer());
             var db = new Models.UserListDbContext();

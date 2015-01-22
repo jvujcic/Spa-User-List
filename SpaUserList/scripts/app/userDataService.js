@@ -34,7 +34,7 @@ angular.module('userList')
             toaster.pop("success", "SUCCESS", "User updated !")
             callback(response);
         }).error(function (response, status) {
-            toaster.pop("error", "ERROR", response.message);
+            toaster.pop("error", "ERROR", response);
         });
     }
 

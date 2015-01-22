@@ -4,12 +4,15 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
+using FluentValidation.Attributes;
 
 namespace SpaUserList.Models
 {
+    [Validator(typeof(Validators.EmailValidator))]
     public class Email
     {
         [Key]
+        [StringLength(20,ErrorMessage="LUDILO")]
         public string EmailAddress { get; set; }
 
         [JsonIgnore]
