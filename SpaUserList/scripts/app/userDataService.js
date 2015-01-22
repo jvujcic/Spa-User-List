@@ -33,7 +33,7 @@ angular.module('userList')
         $http.put(webApiUrl + user.userId, user).success(function (response) {
             toaster.pop("success", "SUCCESS", "User updated !")
             callback(response);
-        }).error(function (response) {
+        }).error(function (response, status) {
             toaster.pop("error", "ERROR", response.message);
         });
     }
@@ -42,7 +42,7 @@ angular.module('userList')
         $http.post(webApiUrl, user).success(function (response) {
             toaster.pop("success", "SUCCESS", "Added new user !");
             callback(response);
-        }).error(function () {
+        }).error(function (response) {
             toaster.pop("error", "ERROR", response.message);
         });
     }

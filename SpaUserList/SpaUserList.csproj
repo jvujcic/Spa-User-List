@@ -134,6 +134,7 @@
     <Content Include="scripts\angular-animate.min.js.map" />
     <None Include="scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="scripts\app\app.js" />
+    <Content Include="scripts\app\favoriteFilter.js" />
     <Content Include="scripts\app\userDataService.js" />
     <Content Include="scripts\app\userCtrl.js" />
     <Content Include="scripts\bootstrap.js" />
@@ -155,6 +156,7 @@
     </Compile>
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\TelephoneNumber.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserListDbContext.cs" />
     <Compile Include="Models\UserListDbInitializer.cs" />

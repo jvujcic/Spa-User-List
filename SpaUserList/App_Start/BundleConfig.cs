@@ -17,7 +17,8 @@ namespace SpaUserList
                 "~/Scripts/toaster.js",
                 "~/Scripts/app/app.js",
                 "~/Scripts/app/userDataService.js",
-                "~/Scripts/app/userCtrl.js"));
+                "~/Scripts/app/userCtrl.js",
+                "~/Scripts/app/favoriteFilter.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/css").Include(
                 "~/Content/bootstrap.css",

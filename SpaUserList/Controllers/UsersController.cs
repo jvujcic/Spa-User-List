@@ -70,12 +70,23 @@ namespace SpaUserList.Controllers
                 db.Emails.Remove(email);
             }
 
+            user.TelephoneNumbers.RemoveWhere(tel => tel.Number == "");
+            foreach (TelephoneNumber tel in userToUpdate.TelephoneNumbers.ToArray())
+            {
+                db.TelephoneNumbers.Remove(tel);
+            }
+
             userToUpdate.Emails.Clear();
             userToUpdate.Tags.Clear();
+            userToUpdate.TelephoneNumbers.Clear();
 
             foreach (Email email in user.Emails)
             {
                 userToUpdate.Emails.Add(new Email() { EmailAddress = email.EmailAddress });
+            }
+            foreach (TelephoneNumber tel in user.TelephoneNumbers)
+            {
+                userToUpdate.TelephoneNumbers.Add(new TelephoneNumber() { Number = tel.Number });
             }
 
             user.Tags.RemoveWhere(tag => tag.Name == "");
@@ -92,6 +103,7 @@ namespace SpaUserList.Controllers
             userToUpdate.Name = user.Name;
             userToUpdate.Address = user.Address;
             userToUpdate.Surname = user.Surname;
+            userToUpdate.Favorite = user.Favorite;
 
             try
             {

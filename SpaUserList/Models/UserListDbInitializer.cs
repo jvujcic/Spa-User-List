@@ -19,6 +19,10 @@ namespace SpaUserList.Models
                         new Email() { EmailAddress = "jvujcic@gmail.com" },
                         new Email() { EmailAddress = "jvujcic@math.hr" }
                     },
+                    TelephoneNumbers = new HashSet<TelephoneNumber>() {
+                        new TelephoneNumber() { Number = "+385 95 873950" }
+                    },
+                    Favorite = true
                 },
                 new User() { 
                     Name = "Mate", 
@@ -28,6 +32,11 @@ namespace SpaUserList.Models
                         new Email() { EmailAddress = "mate@gmail.com" },
                         new Email() { EmailAddress = "mate@math.hr" }
                     },
+                    TelephoneNumbers = new HashSet<TelephoneNumber>() {
+                        new TelephoneNumber() { Number = "+385 91 82350" },
+                        new TelephoneNumber() { Number = "09812232323" }
+                    },
+                    Favorite = false
                 }
             };
 

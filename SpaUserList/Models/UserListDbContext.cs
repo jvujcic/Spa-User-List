@@ -29,5 +29,6 @@ namespace SpaUserList.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<TelephoneNumber> TelephoneNumbers { get; set; }
     }
 }

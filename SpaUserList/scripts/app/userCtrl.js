@@ -1,8 +1,9 @@
 ﻿/// <reference path="../angular.js" />
 
 angular.module('userList')
-.controller('UserCtrl', ['$scope', 'userDataService', 'toaster', function ($scope, userDataService, toaster) {
+.controller('UserCtrl', ['$scope', 'userDataService', function ($scope, userDataService) {
     $scope.query = "";
+    $scope.favorite = false;
 
     $scope.init = function () {
         $scope.getUsers($scope.query);
@@ -22,6 +23,7 @@ angular.module('userList')
             $scope.userToUpdate = data;
             $scope.userToUpdate.emails.push({ 'emailAddress': "" });
             $scope.userToUpdate.tags.push({ 'name': "" });
+            $scope.userToUpdate.telephoneNumbers.push({ 'number': "" });
         })
         $scope.userToEditId = id;
         $scope.showAddUserForm(false);
@@ -53,17 +55,23 @@ angular.module('userList')
     $scope.addRow = function (elements, index, type) {
         if (index == elements.length - 1) {
             if (type == "email") elements.push({ 'emailAddress': "" });
-            if (type == "tag") elements.push({'name' : ""})
+            if (type == "tag") elements.push({ 'name': "" });
+            if (type == 'tel') elements.push({ 'number' : "" });
         }
     }
 
     $scope.showAddUserForm = function (show) {
-        if (show)
-        {
-            $scope.userToUpdate = { 'emails': [{ 'emailAddress': "" }], 'tags': [{ 'name': "" }] };
+        if (show) {
+            $scope.userToUpdate = {
+                'emails': [{ 'emailAddress': "" }],
+                'tags': [{ 'name': "" }],
+                'telephoneNumbers': [{ 'number': "" }],
+                favorite : false
+            };
             $scope.userToEditId = -1;
+        } else {
+            $scope.userToUpdate = {};
         }
-        else { $scope.userToUpdate = {}; }
         $scope.showAddUser = show;
     }
 
@@ -75,6 +83,8 @@ angular.module('userList')
         $scope.query = "";
         $scope.init();
     }
+
+    
 
     $scope.init();
 }])

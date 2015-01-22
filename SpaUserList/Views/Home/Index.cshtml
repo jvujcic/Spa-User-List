@@ -4,24 +4,39 @@
     <title>User List</title>
 </head>
 <body ng-app="userList">
-    <div class="container" ng-controller="UserCtrl"> 
+    <div class="container" ng-controller="UserCtrl">
         <toaster-container toaster-options="{'time-out': 2000}"></toaster-container>
         <h1>User List</h1>
+        <form>
+            Favorites <input type="checkbox" ng-model="favorite" />
+        </form>
         <table class="table table-hover">
             <tr>
+                <th><span class="glyphicon glyphicon-star"></span></th>
                 <th> NAME </th>
                 <th> SURNAME </th>
                 <th> ADDRESS </th>
+                <th> TELEPHONE </th>
                 <th> E-MAIL</th>
                 <th> TAG </th>
             </tr>
-            <tr ng-repeat="user in userList">
+            <tr ng-repeat="user in userList | favoriteFilter : favorite">
+                <td ng-if="user.userId != userToEditId"> <input type="checkbox" ng-checked="user.favorite" ng-disabled="true"/> </td>
+                <td ng-if="user.userId == userToEditId"><input type="checkbox" ng-checked="user.favorite" ng-model="userToUpdate.favorite"/> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.name }} </td>
-                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control" ng-model="userToUpdate.name" placeholder={{user.name}} /> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.surname }} </td>
-                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.surname" placeholder={{user.surname}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control" ng-model="userToUpdate.surname" placeholder={{user.surname}} /> </td>
                 <td ng-if="user.userId != userToEditId"> {{ user.address }} </td>
-                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control"  ng-model="userToUpdate.address" placeholder={{user.address}} /> </td>
+                <td ng-if="user.userId == userToEditId"> <input type="text" class="form-control" ng-model="userToUpdate.address" placeholder={{user.address}} /> </td>
+                <td>
+                    <table>
+                        <tr ng-if="user.userId != userToEditId" ng-repeat="tel in user.telephoneNumbers"> <td> {{tel.number}} </td> </tr>
+                        <tr ng-if="user.userId == userToEditId" ng-repeat="tel in userToUpdate.telephoneNumbers" track by $index>
+                            <td> <input type="text" class="form-control" ng-model="tel.number" placeholder="{{tel.number}}" ng-change="addRow(userToUpdate.telephoneNumbers, $index, 'tel')" /> </td>
+                        </tr>
+                    </table>
+                </td>
                 <td>
                     <table>
                         <tr ng-if="user.userId != userToEditId" ng-repeat="email in user.emails"> <td> {{email.emailAddress}} </td> </tr>
@@ -44,9 +59,17 @@
                 <td ng-if="user.userId != userToEditId"> <button class="btn btn-danger" ng-click="deleteUser(user.userId)"> Delete </button> </td>
             </tr>
             <tr ng-if="showAddUser">
-                <td> <input type="text" class="form-control" ng-model="userToUpdate.name" /> </td>
+                <td> <input type="checkbox" ng-model="userToUpdate.favorite"/> </td>
+                <td> <input type="text" class="form-control" ng-model="userToUpdate.name"/> </td>
                 <td> <input type="text" class="form-control" ng-model="userToUpdate.surname" /> </td>
                 <td> <input type="text" class="form-control" ng-model="userToUpdate.address" /> </td>
+                <td>
+                    <table>
+                        <tr ng-repeat="tel in userToUpdate.telephoneNumbers" track by $index>
+                            <td> <input type="text" class="form-control" ng-model="tel.number" placeholder="{{tel.number}}" ng-change="addRow(userToUpdate.telephoneNumbers, $index, 'tel')" /> </td>
+                        </tr>
+                    </table>
+                </td>
                 <td>
                     <table>
                         <tr ng-repeat="email in userToUpdate.emails" track by $index>
@@ -72,9 +95,11 @@
         <br /><br />
         <form ng-submit="searchUser()" class="form-inline">
             <input type="text" class="form-control" ng-model="query" />
-            <button class="btn btn-primary" ng-click="searchUser()"> Search </button>
-            <button class="btn btn-danger" ng-click="cancelSearch()"> Cancel </button>
+            <button class="btn btn-primary btn-lg" ng-click="searchUser()"> <span class="glyphicon glyphicon-search"></span> </button>
+            <button class="btn btn-danger btn-lg" ng-click="cancelSearch()"> <span class="glyphicon glyphicon-remove"></span> </button>
         </form>
+
+        {{userToUpdate | json}}
     </div>
 
     @Scripts.Render("~/bundles/javascript")
