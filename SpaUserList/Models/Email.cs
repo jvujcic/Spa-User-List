@@ -12,7 +12,6 @@ namespace SpaUserList.Models
     public class Email
     {
         [Key]
-        [StringLength(20,ErrorMessage="LUDILO")]
         public string EmailAddress { get; set; }
 
         [JsonIgnore]

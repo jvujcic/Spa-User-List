@@ -9,8 +9,6 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using SpaUserList.Models;
-using Newtonsoft.Json;
-using FluentValidation.Results;
 
 namespace SpaUserList.Controllers
 {
@@ -41,17 +39,8 @@ namespace SpaUserList.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutUser(int id, User user)
         {
-            var validator = new Models.Validators.UserValidator();
-            ValidationResult result = validator.Validate(user);
-            if (!result.IsValid)
-            {
-                return BadRequest(result.Errors.First().ErrorMessage);
-            }
             if (!ModelState.IsValid)
             {
-                //var errors = new List<string>();
-                //foreach(var state in ModelState)
-                //{ errors.Add(state.Value.Errors.First().ErrorMessage); }
                 return BadRequest(ModelState);       
             }
 
@@ -62,45 +51,19 @@ namespace SpaUserList.Controllers
                 return BadRequest();
             }
 
-            user.Emails.RemoveWhere(email => email.EmailAddress == "");
+            var emailsToRemove = new HashSet<Email>(userToUpdate.Emails);
+            emailsToRemove.ExceptWith(user.Emails);
+            db.Emails.RemoveRange(emailsToRemove);
+            userToUpdate.Emails.IntersectWith(user.Emails);
+            userToUpdate.Emails.UnionWith(user.Emails);
 
-            //foreach (Email email in user.Emails)
-            //{
-            //    Email emailTemp = db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress);
-            //    if(emailTemp != null && emailTemp.UserId != user.UserId)
-            //    {
-            //        return BadRequest("koristena email adresa");
-            //    }
-            //}
-           /*
-            * Moze i efikasnije (bez da sve izbrisen i updejtan)
-            */         
+            var telephoneNumbersToRemove = new HashSet<TelephoneNumber>(userToUpdate.TelephoneNumbers);
+            telephoneNumbersToRemove.Except(user.TelephoneNumbers);
+            db.Emails.RemoveRange(emailsToRemove);
+            userToUpdate.TelephoneNumbers.IntersectWith(user.TelephoneNumbers);
+            userToUpdate.TelephoneNumbers.UnionWith(user.TelephoneNumbers);
 
-            foreach (Email email in userToUpdate.Emails.ToArray())
-            {
-                db.Emails.Remove(email);
-            }
-
-            user.TelephoneNumbers.RemoveWhere(tel => tel.Number == "");
-            foreach (TelephoneNumber tel in userToUpdate.TelephoneNumbers.ToArray())
-            {
-                db.TelephoneNumbers.Remove(tel);
-            }
-
-            userToUpdate.Emails.Clear();
-            userToUpdate.Tags.Clear();
-            userToUpdate.TelephoneNumbers.Clear();
-
-            foreach (Email email in user.Emails)
-            {
-                userToUpdate.Emails.Add(new Email() { EmailAddress = email.EmailAddress });
-            }
-            foreach (TelephoneNumber tel in user.TelephoneNumbers)
-            {
-                userToUpdate.TelephoneNumbers.Add(new TelephoneNumber() { Number = tel.Number });
-            }
-
-            user.Tags.RemoveWhere(tag => tag.Name == "");
+            userToUpdate.Tags.IntersectWith(user.Tags);
             foreach (Tag tag in user.Tags)
             {
                 Tag tagTemp = db.Tags.SingleOrDefault(t => t.Name == tag.Name);
@@ -110,11 +73,6 @@ namespace SpaUserList.Controllers
                 }
                 userToUpdate.Tags.Add(tagTemp);
             }
-
-            userToUpdate.Name = user.Name;
-            userToUpdate.Address = user.Address;
-            userToUpdate.Surname = user.Surname;
-            userToUpdate.Favorite = user.Favorite;
 
             try
             {
@@ -131,7 +89,6 @@ namespace SpaUserList.Controllers
                     throw;
                 }
             }
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -144,32 +101,21 @@ namespace SpaUserList.Controllers
                 return BadRequest(ModelState);
             }
 
-            user.Emails.RemoveWhere(email => email.EmailAddress == "");
-            foreach (Email email in user.Emails)
-            {
-                if (db.Emails.SingleOrDefault(e => e.EmailAddress == email.EmailAddress) != null)
-                {
-                    return BadRequest("koristena email adresa");
-                }
-            }
-
-            user.Tags.RemoveWhere(tag => tag.Name == "");
-            var tagsToRemove = new List<Tag>();
+            var tagsAllreadyInDb = new List<Tag>();
             foreach(Tag tag in user.Tags)
             {
                 Tag tagTemp = db.Tags.SingleOrDefault(t => t.Name == tag.Name);
                 if (tagTemp != null)
                 {
                     tagTemp.Users.Add(user);
-                    tagsToRemove.Add(tag);
+                    tagsAllreadyInDb.Add(tagTemp);
                 }
             }
-            tagsToRemove.ForEach(tag => user.Tags.Remove(tag));
-
+            tagsAllreadyInDb.ForEach(tag => user.Tags.Remove(tag));
             db.Users.Add(user);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = user.UserId }, user);
+            return Ok();
         }
 
         // DELETE: api/Users/5

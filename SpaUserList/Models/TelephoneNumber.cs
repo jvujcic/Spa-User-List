@@ -4,22 +4,23 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
+using FluentValidation.Attributes;
 
 namespace SpaUserList.Models
 {
+    [Validator(typeof(Validators.TelephoneNumberValidator))]
     public class TelephoneNumber
     {   
         [JsonIgnore]
         public int TelephoneNumberId { get; set; }
 
-        //[Required]
         public string Number { get; set; }
 
         [JsonIgnore]
         public int UserId { get; set; }
 
         [JsonIgnore]
-        public virtual User Uuser { get; set; }
+        public virtual User User { get; set; }
     }
 
     public class TelephoneNumberComparer : IEqualityComparer<TelephoneNumber>
@@ -30,7 +31,7 @@ namespace SpaUserList.Models
         }
         public int GetHashCode(TelephoneNumber t)
         {
-            return t.GetHashCode();
+            return t.Number.GetHashCode();
         }
     }
 }

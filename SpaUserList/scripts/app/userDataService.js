@@ -43,7 +43,7 @@ angular.module('userList')
             toaster.pop("success", "SUCCESS", "Added new user !");
             callback(response);
         }).error(function (response) {
-            toaster.pop("error", "ERROR", response.message);
+            toaster.pop("error", "ERROR", response);
         });
     }
 

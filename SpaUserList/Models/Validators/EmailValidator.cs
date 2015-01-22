@@ -10,7 +10,9 @@ namespace SpaUserList.Models.Validators
     {
         public EmailValidator()
         {
-            RuleFor(email => email.EmailAddress).EmailAddress().WithMessage("Not an email !!");
+            RuleFor(email => email.EmailAddress)
+                .EmailAddress()
+                .WithMessage("Not an email !!");
         }
     }
 }

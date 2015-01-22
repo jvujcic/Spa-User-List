@@ -167,6 +167,7 @@
     <Compile Include="Models\UserListDbContext.cs" />
     <Compile Include="Models\UserListDbInitializer.cs" />
     <Compile Include="Models\Validators\EmailValidator.cs" />
+    <Compile Include="Models\Validators\TelephoneNumberValidator.cs" />
     <Compile Include="Models\Validators\UserValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

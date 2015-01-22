@@ -5,10 +5,9 @@ angular.module('userList')
     $scope.query = "";
     $scope.favorite = false;
 
-    $scope.init = function () {
+    var init = function () {
         $scope.getUsers($scope.query);
-        $scope.userToEditId = -1;
-        $scope.userToUpdate = { };
+        $scope.userToUpdate = { 'userId' : -1 };
         $scope.showAddUser = false;
     }
 
@@ -25,30 +24,28 @@ angular.module('userList')
             $scope.userToUpdate.tags.push({ 'name': "" });
             $scope.userToUpdate.telephoneNumbers.push({ 'number': "" });
         })
-        $scope.userToEditId = id;
         $scope.showAddUserForm(false);
     }
 
     $scope.cancelEditing = function () {
-        $scope.userToEditId = -1;
-        $scope.userToUpdate = {};
+        $scope.userToUpdate.userId = -1;
     }
 
     $scope.updateUser = function () {
-        userDataService.updateUser($scope.userToUpdate, function (data) {
-            $scope.init();
+        userDataService.updateUser(createUserForPost(), function (data) {
+            init();
         });
     }
 
     $scope.addUser = function () {
-        userDataService.addUser($scope.userToUpdate, function (data) {
-            $scope.init();
+        userDataService.addUser(createUserForPost(), function (data) {
+            init();
         });
     }
 
     $scope.deleteUser = function (id) {
         userDataService.deleteUser(id, function (data) {
-            $scope.init();
+            init();
         });
     }
 
@@ -66,25 +63,37 @@ angular.module('userList')
                 'emails': [{ 'emailAddress': "" }],
                 'tags': [{ 'name': "" }],
                 'telephoneNumbers': [{ 'number': "" }],
+                'userId' : -1,
                 favorite : false
             };
-            $scope.userToEditId = -1;
         } else {
-            $scope.userToUpdate = {};
+            $scope.userToUpdate = { 'userId' : -1 };
         }
         $scope.showAddUser = show;
     }
 
     $scope.searchUser = function () {
-        $scope.init();
+        init();
     }
 
     $scope.cancelSearch = function () {
         $scope.query = "";
-        $scope.init();
+        init();
     }
 
-    
+    var createUserForPost = function() {
+        newUser = JSON.parse(JSON.stringify($scope.userToUpdate));
+        newUser.emails = newUser.emails.filter(function (email) {
+            return email.emailAddress != "";
+        });
+        newUser.tags = newUser.tags.filter(function (tag) {
+            return tag.name != "";
+        });
+        newUser.telephoneNumbers = newUser.telephoneNumbers.filter(function (tel) {
+            return tel.number != "";
+        });
+        return newUser;
+    }
 
-    $scope.init();
+    init();
 }])

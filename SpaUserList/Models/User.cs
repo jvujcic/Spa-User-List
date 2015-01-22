@@ -7,7 +7,7 @@ using FluentValidation.Attributes;
 
 namespace SpaUserList.Models
 {
-    //[Validator(typeof(Validators.UserValidator))]
+    [Validator(typeof(Validators.UserValidator))]
     public class User
     {
         public User()
@@ -20,10 +20,8 @@ namespace SpaUserList.Models
 
         public int UserId { get; set; }
 
-        //[Required(ErrorMessage="TestName")]
         public string Name { get; set; }
 
-        //[Required(ErrorMessage="TestSur")]
         public string Surname {get; set;}
 
         public string Address { get; set; }
