@@ -6,7 +6,7 @@ using System.Data.Entity;
 
 namespace SpaUserList.Models
 {
-    public class UserListDbInitializer : DropCreateDatabaseAlways<UserListDbContext>
+    public class UserListDbInitializer : DropCreateDatabaseIfModelChanges<UserListDbContext>
     {
         protected override void Seed(UserListDbContext context)
         {

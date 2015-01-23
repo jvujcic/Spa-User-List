@@ -23,7 +23,6 @@ namespace SpaUserList
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
-
             //Validators initializations
             FluentValidationModelValidatorProvider.Configure(GlobalConfiguration.Configuration);
 
