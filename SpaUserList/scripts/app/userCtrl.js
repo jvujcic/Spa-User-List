@@ -2,13 +2,20 @@
 
 angular.module('userList')
 .controller('UserCtrl', ['$scope', 'userDataService', function ($scope, userDataService) {
-    $scope.query = "";
-    $scope.favorite = false;
+    $scope.status = {
+        query: "",
+        favorite: false,
+        editId: -1,
+        editing: false,
+        newUser: false,
+    }
 
     var init = function () {
-        $scope.getUsers($scope.query);
-        $scope.userToUpdate = { 'userId' : -1 };
-        $scope.showAddUser = false;
+        $scope.getUsers($scope.status.query);
+        $scope.status.editUser = -1;
+        $scope.status.newUser = false;
+        $scope.status.editing = false;
+        $scope.status.editId = -1;
     }
 
     $scope.getUsers = function (query) {
@@ -18,29 +25,37 @@ angular.module('userList')
     }
 
     $scope.editUser = function (id) {
-        userDataService.getUser(id, function (data) {
-            $scope.userToUpdate = data;
-            $scope.userToUpdate.emails.push({ 'emailAddress': "" });
-            $scope.userToUpdate.tags.push({ 'name': "" });
-            $scope.userToUpdate.telephoneNumbers.push({ 'number': "" });
-        })
-        $scope.showAddUserForm(false);
+        $scope.status.editId = id;
+        $scope.status.editing = true;
+        if (status.editId !== -1) {
+            userDataService.getUser(id, function (data) {
+                $scope.userToUpdate = data;
+                $scope.userToUpdate.emails.push({ 'emailAddress': "" });
+                $scope.userToUpdate.tags.push({ 'name': "" });
+                $scope.userToUpdate.telephoneNumbers.push({ 'number': "" });
+            });
+        }
     }
 
     $scope.cancelEditing = function () {
-        $scope.userToUpdate.userId = -1;
+        $scope.status.editId = -1;
+        $scope.status.editing = false;
+        if ($scope.status.newUser === true) {
+            $scope.status.newUser = false;
+            $scope.userList.pop();
+        }
     }
 
-    $scope.updateUser = function () {
-        userDataService.updateUser(createUserForPost(), function (data) {
-            init();
-        });
-    }
-
-    $scope.addUser = function () {
-        userDataService.addUser(createUserForPost(), function (data) {
-            init();
-        });
+    $scope.saveUser = function () {
+        if ($scope.userToUpdate.userId === -1) {
+            userDataService.addUser(createUserForPost($scope.userToUpdate), function (data) {
+                init();
+            });
+        } else {
+            userDataService.updateUser(createUserForPost($scope.userToUpdate), function (data) {
+                init();
+            });
+        }
     }
 
     $scope.deleteUser = function (id) {
@@ -57,19 +72,19 @@ angular.module('userList')
         }
     }
 
-    $scope.showAddUserForm = function (show) {
-        if (show) {
-            $scope.userToUpdate = {
-                'emails': [{ 'emailAddress': "" }],
-                'tags': [{ 'name': "" }],
-                'telephoneNumbers': [{ 'number': "" }],
-                'userId' : -1,
-                favorite : false
-            };
-        } else {
-            $scope.userToUpdate = { 'userId' : -1 };
-        }
-        $scope.showAddUser = show;
+    $scope.showAddUserForm = function () {
+        $scope.userList.push({
+            userId: -1,
+        });
+        $scope.userToUpdate = {
+            userId: -1,
+            emails: [{ 'emailAddress': "" }],
+            tags: [{ 'name': "" }],
+            telephoneNumbers: [{ 'number': "" }],
+            favorite: false
+        };
+        $scope.status.editing = true;
+        $scope.status.newUser = true;
     }
 
     $scope.searchUser = function () {
@@ -77,20 +92,20 @@ angular.module('userList')
     }
 
     $scope.cancelSearch = function () {
-        $scope.query = "";
+        $scope.status.query = "";
         init();
     }
 
-    var createUserForPost = function() {
-        newUser = JSON.parse(JSON.stringify($scope.userToUpdate));
+    var createUserForPost = function(user) {
+        newUser = JSON.parse(JSON.stringify(user));
         newUser.emails = newUser.emails.filter(function (email) {
-            return email.emailAddress != "";
+            return email.emailAddress !== "";
         });
         newUser.tags = newUser.tags.filter(function (tag) {
-            return tag.name != "";
+            return tag.name !== "";
         });
         newUser.telephoneNumbers = newUser.telephoneNumbers.filter(function (tel) {
-            return tel.number != "";
+            return tel.number !== "";
         });
         return newUser;
     }

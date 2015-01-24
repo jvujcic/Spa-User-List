@@ -11,7 +11,7 @@ namespace SpaUserList.Models.Validators
         public TelephoneNumberValidator()
         {
             RuleFor(tel => tel.Number)
-                .Matches(@"^\+?[\d]{3,15}$")
+                .Matches(@"^\+?[\d]{4,15}$")
                 .WithMessage("Telephone number in wrong format !!");
         }
     }
