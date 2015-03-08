@@ -12,15 +12,15 @@ namespace SpaUserList.Models
         {
             var listOfUsers = new List<User>() {
                 new User() { 
-                    Name = "Josip", 
-                    Surname = "Vujcic", 
-                    Address = "Stara Knezija 12", 
+                    Name = "Ivan", 
+                    Surname = "Ivic", 
+                    Address = "Split", 
                     Emails = new HashSet<Email>() {
-                        new Email() { EmailAddress = "jvujcic@gmail.com" },
-                        new Email() { EmailAddress = "jvujcic@math.hr" }
+                        new Email() { EmailAddress = "ivan@gmail.com" },
+                        new Email() { EmailAddress = "ivan@math.com" }
                     },
                     TelephoneNumbers = new HashSet<TelephoneNumber>() {
-                        new TelephoneNumber() { Number = "+38595873950" }
+                        new TelephoneNumber() { Number = "+38595111111" }
                     },
                     Tags = new HashSet<Tag>() {
                         new Tag() { Name="bacvice" }
